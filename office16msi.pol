@@ -2,17 +2,19 @@
 # PlayOnLinux Script for Office 2016 HomeBusinessRetail (or other) by @sglbl
 # Target Wine: 5.8 (x86)
 
+# Note: Installation error exists, use office16 script if possible.
+
 [ -z "$PLAYONLINUX" ] && exit 0
 source "$PLAYONLINUX/lib/sources"
 
-PREFIX="office16"
+PREFIX="office16msi"
 WINEVERSION="5.8"
 GAME_VDE="32"
 
 # Office installer ISO build (must be mounted)
-OFFICE_BUILD="16.0.9029.2167"
+OFFICE_BUILD="16.0.4266.1001"
 OFFICE_MOUNT="/media/$USER/$OFFICE_BUILD"
-SETUP_EXE="$OFFICE_MOUNT/Office/Setup32.exe"
+SETUP_EXE="$OFFICE_MOUNT/setup.exe"
 
 
 # ---- installer existence check ----
@@ -179,10 +181,10 @@ if ! grep -q "ols.officeapps.live.com" "$HOSTS_FILE"; then
 fi
 
 # 10. Create Shortcut
-POL_Shortcut "WINWORD.EXE" "Microsoft Word 2016"
-POL_Shortcut "EXCEL.EXE" "Microsoft Excel 2016" "" "" "Office;Spreadsheet;"
-POL_Shortcut "POWERPNT.EXE" "Microsoft Powerpoint 2016" "" "" "Office;Presentation;"
-POL_Shortcut "ONENOTE.EXE" "Microsoft OneNote 2016" "" "" "Network;InstantMessaging;" 
+POL_Shortcut "WINWORD.EXE" "Word 2016"
+POL_Shortcut "EXCEL.EXE" "Excel 2016" "" "" "Office;Spreadsheet;"
+POL_Shortcut "POWERPNT.EXE" "Powerpoint 2016" "" "" "Office;Presentation;"
+POL_Shortcut "ONENOTE.EXE" "OneNote 2016" "" "" "Network;InstantMessaging;" 
 # POL_Shortcut "OUTLOOK.EXE" "Microsoft Outlook 2016" "" "" "Office;Email;" # doesn't work because of unsupported browser
 
 
