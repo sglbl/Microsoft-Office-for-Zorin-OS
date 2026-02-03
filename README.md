@@ -86,6 +86,7 @@ grep -l "office16" ~/.local/share/applications/wine-extension-*.desktop | xargs 
 - Outlook is disabled due to browser compatibility issues
 - Hardware acceleration is disabled to prevent graphics crashes
 - Some .NET errors during installation are normal and can be skipped
+- Multi-monitor setup: The applications might only work on the number of displays present during installation
 
 
 ## License
