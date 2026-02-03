@@ -1,6 +1,6 @@
-# Microsoft Office on Zorin OS Using Play On Linux and Wine
+# Microsoft Office 2016 Installation Script for Linux (Wine/PlayOnLinux)
 
-This guide explains how to install Microsoft Office 2016 on Zorin OS 18 (x11) using PlayOnLinux (POL).
+A complete automated installation script for Microsoft Office 2016 on Linux systems using Wine and PlayOnLinux.
 
 ## Step 1: Download Office 2016 
 
@@ -50,13 +50,13 @@ The script automates the installation and configuration of Microsoft Office 2016
 *   **Installs dependencies:** It installs necessary components like `msxml6`, `riched20`, and `dotnet45` and add overrides libraries as native (windows) and then builtin (wine).
 *   **Runs the installer:** It launches the Office 2016 installer.
 *   **Applies fixes:** It copies necessary DLLs (`AppvIsvSubsystems32`, `C2R32`, `sppc` and `sppcs`) to the required (office or system32) folders to ensure compatibility.
-*   **Creates shortcuts:** It creates desktop shortcuts for Word, Excel, PowerPoint, OneNote and Outlook.
-
+*   **Creates shortcuts:** It creates desktop shortcuts for Word, Excel, PowerPoint and OneNote.
+<!-- 
 ### Post Installation
 
 In the Main Play on Linux (POL) screen, click Configure -> Office16 -> Wine Tab -> Registry Editor:
 - Under HKEY_CURRENT_USER\Software\Wine, create the key `Direct2D` by right click.
-- Under Direct2D, create DWORD `max_version_factory` and keep it as 0 (default)
+- Under Direct2D, create DWORD `max_version_factory` and keep it as 0 (default) -->
 
 <details>
 <summary><b>Extras</b></summary>
@@ -79,6 +79,18 @@ https://dn721300.ca.archive.org/0/items/windows_xp_files/windows_xp_tablet_editi
 For OneNote, you have to download this and install it from:
 In the Main Play on Linux (POL) screen, click Configure -> Office16 -> Miscellaneous Tab -> Run a exe.
 After the installation, OneNote will work. When you open the app, right click on File and unselect Collapse the Ribbon.
+
+
+## Known Issues
+
+- Outlook is disabled due to browser compatibility issues
+- Hardware acceleration is disabled to prevent graphics crashes
+- Some .NET errors during installation are normal and can be skipped
+
+
+## License
+
+This project is licensed under the MIT License with Attribution Requirement - see the [LICENSE](LICENSE) file for details.
 
 </details>
 
