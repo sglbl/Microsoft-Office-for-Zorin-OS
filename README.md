@@ -58,6 +58,15 @@ In the Main Play on Linux (POL) screen, click Configure -> Office16 -> Wine Tab 
 - Under HKEY_CURRENT_USER\Software\Wine, create the key `Direct2D` by right click.
 - Under Direct2D, create DWORD `max_version_factory` and keep it as 0 (default) -->
 
+
+### Add OneNote Support
+
+https://dn721300.ca.archive.org/0/items/windows_xp_files/windows_xp_tablet_edition_sdk_17.exe
+
+For OneNote, you have to download this and install it from:
+In the Main Play on Linux (POL) screen, click Configure -> Office16 -> Miscellaneous Tab -> Run a exe.
+After the installation, OneNote will work. When you open the app, right click on File and unselect Collapse the Ribbon.
+
 <details>
 <summary><b>Extras</b></summary>
 
@@ -71,15 +80,6 @@ To remove the old "zombie" shortcuts, run the following command in your terminal
 ```bash
 grep -l "office16" ~/.local/share/applications/wine-extension-*.desktop | xargs rm
 ```
-
-### Add OneNote Support
-
-https://dn721300.ca.archive.org/0/items/windows_xp_files/windows_xp_tablet_edition_sdk_17.exe
-
-For OneNote, you have to download this and install it from:
-In the Main Play on Linux (POL) screen, click Configure -> Office16 -> Miscellaneous Tab -> Run a exe.
-After the installation, OneNote will work. When you open the app, right click on File and unselect Collapse the Ribbon.
-
 
 ## Known Issues
 
