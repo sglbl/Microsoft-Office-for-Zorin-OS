@@ -1,0 +1,28 @@
+Windows Registry Editor Version 5.00
+
+; 7. Apply Registry Overrides for Hook
+[HKEY_CURRENT_USER\Software\Wine\Direct2D]
+"max_version_factory"=dword:00000000
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion]
+"CurrentVersion"="6.1"
+
+; 8. Block Internet and Heartbeat
+[HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Common\Licensing]
+"NoUIPrompt"=dword:00000001
+"HeartbeatCache"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Common\Internet]
+"UseOnlineContent"=dword:00000000
+"OfficeActivationEmailHost"="127.0.0.1"
+
+[HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Common\Graphics]
+"DisableHardwareAcceleration"=dword:00000001
+"DisableAnimations"=dword:00000001
+
+; 9. Configure Activation Identity
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Office\16.0\ClickToRun\Configuration]
+"ProductReleaseIds"="HomeBusinessRetail"
+
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\sppsvc]
+"Start"=dword:00000002

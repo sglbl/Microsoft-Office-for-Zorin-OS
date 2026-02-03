@@ -1,0 +1,153 @@
+#!/bin/bash
+# PlayOnLinux Script for Office 2016 HomeBusinessRetail (or other) by @sglbl
+# Target Wine: 5.8 (x86)
+
+[ -z "$PLAYONLINUX" ] && exit 0
+source "$PLAYONLINUX/lib/sources"
+
+PREFIX="office16"
+WINEVERSION="5.8"
+GAME_VDE="32"
+
+# Office installer ISO build (must be mounted)
+OFFICE_BUILD="16.0.9029.2167"
+OFFICE_MOUNT="/media/$USER/$OFFICE_BUILD"
+SETUP_EXE="$OFFICE_MOUNT/Office/Setup32.exe"
+
+
+# ---- installer existence check ----
+if [ ! -f "$SETUP_EXE" ]; then
+    echo "ERROR: Office installer not found."
+    echo "Expected mounted ISO at:"
+    echo "  $SETUP_EXE"
+    echo "Make sure Office $OFFICE_BUILD ISO is mounted and retry."
+    exit 1
+fi
+
+POL_SetupWindow_Init
+POL_Debug_Init
+
+# ---- Pre-check for ncurses (Wine 5.8 dependency) ----
+# Newer distros have libncurses.so.6, but Wine 5.8 needs .so.5
+if ! ldconfig -p | grep -q "libncurses.so.5" && ! [ -f "/usr/lib/i386-linux-gnu/libncurses.so.5" ]; then
+    POL_SetupWindow_message "$(eval_gettext 'Warning: Wine 5.8 requires libncurses.so.5, but it was not found.\n\nOn newer systems (Ubuntu 24.04+), you must create a symlink manually:\n\nsudo ln -s /usr/lib/i386-linux-gnu/libncurses.so.6 /usr/lib/i386-linux-gnu/libncurses.so.5\nsudo ln -s /usr/lib/i386-linux-gnu/libtinfo.so.6 /usr/lib/i386-linux-gnu/libtinfo.so.5\n\nThe installation might fail or yield a black screen without this.')" "Dependency Warning"
+fi
+
+# 1. Create Prefix
+POL_System_SetArch "x86"
+POL_Wine_SelectPrefix "$PREFIX"
+POL_Wine_PrefixCreate "$WINEVERSION"
+
+# 2. Install Dependencies
+POL_Call POL_Install_msxml6
+POL_Call POL_Install_riched20
+# POL_Call POL_Install_dotnet20
+POL_Call POL_Install_dotnet45
+
+# ---- IMPORTANT NOTE 1 ----
+# Dotnet 4.5 will throw some errors in the middle but you can skip those and continue 
+
+# 3. Setup Initial Registry and Windows Version
+POL_Wine_SelectPrefix "$PREFIX"
+Set_OS "win7"
+
+# 4. Run Installer
+# Pointing to the specific path provided
+POL_SetupWindow_wait "Installing Office 2016... Please wait until installer completes and click Close. Do not launch Word yet."
+POL_Wine "$SETUP_EXE"
+
+# 5. Hydrate the Office16 Folder (The Core DLLs)
+OFFICE_ROOT="$WINEPREFIX/drive_c/Program Files/Microsoft Office/root/Office16"
+C2R_SRC="$WINEPREFIX/drive_c/Program Files/Common Files/Microsoft Shared/ClickToRun"
+
+cp "$C2R_SRC/AppvIsvSubsystems32.dll" "$OFFICE_ROOT/"
+cp "$C2R_SRC/C2R32.dll" "$OFFICE_ROOT/"
+
+# 6. Setup the Activation Hook (sppc and sppcs)
+SYS32="$WINEPREFIX/drive_c/windows/system32"
+
+
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+HOOK_SRC="$SCRIPT_DIR/sppc.dll"
+
+# Copy Hook as sppc
+cp "$HOOK_SRC" "$SYS32/sppc.dll"
+# Copy version.dll as the partner sppcs
+cp "$SYS32/version.dll" "$SYS32/sppcs.dll"
+
+
+# working ones
+POL_Wine_OverrideDLL "native,builtin" "riched20"
+POL_Wine_OverrideDLL "native,builtin" "msxml6"
+POL_Wine_OverrideDLL "native" "sppc"
+POL_Wine_OverrideDLL "builtin" "sppcs"
+POL_Wine_OverrideDLL "native" "mscorwks"
+
+# POL_Wine_Direct3D "MaxVersionGL" "30002"
+
+
+# ---- IMPORTANT NOTE 2: ----
+
+# Under HKEY_CURRENT_USER\Software\Wine, create the key "Direct2D" 
+# Under Direct2D, create DWORD max_version_factory and set it to 0
+
+# ---- IMPORTANT NOTE 3: ----
+
+# 7, 8, 9. Apply Registry Settings via Regedit (More compatible than POL commands)
+# Create a temporary reg file
+cat <<EOF > "$WINEPREFIX/tmp_office_setup.reg"
+Windows Registry Editor Version 5.00
+
+; 7. Hooks
+[HKEY_CURRENT_USER\Software\Wine\Direct2D]
+"max_version_factory"=dword:00000000
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion]
+"CurrentVersion"="6.1"
+
+; 8. Licensing and Graphics
+[HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Common\Licensing]
+"NoUIPrompt"=dword:00000001
+"HeartbeatCache"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Common\Internet]
+"UseOnlineContent"=dword:00000000
+"OfficeActivationEmailHost"="127.0.0.1"
+
+[HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Common\Graphics]
+"DisableHardwareAcceleration"=dword:00000001
+"DisableAnimations"=dword:00000001
+
+; 9. Activation
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Office\16.0\ClickToRun\Configuration]
+"ProductReleaseIds"="HomeBusinessRetail"
+
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\sppsvc]
+"Start"=dword:00000002
+EOF
+
+# Import it
+POL_Wine regedit "$WINEPREFIX/tmp_office_setup.reg"
+
+# 9.5 Block Licensing Hosts (Prevent "Problem checking license status" banner)
+HOSTS_FILE="$WINEPREFIX/drive_c/windows/system32/drivers/etc/hosts"
+mkdir -p "$(dirname "$HOSTS_FILE")"
+# Only append if not already there to avoid duplicates on re-runs
+if ! grep -q "ols.officeapps.live.com" "$HOSTS_FILE"; then
+    echo "" >> "$HOSTS_FILE"
+    echo "0.0.0.0 ols.officeapps.live.com" >> "$HOSTS_FILE"
+    echo "0.0.0.0 odc.officeapps.live.com" >> "$HOSTS_FILE"
+    echo "0.0.0.0 office15client.microsoft.com" >> "$HOSTS_FILE"
+fi
+
+# 10. Create Shortcut
+POL_Shortcut "WINWORD.EXE" "Microsoft Word 2016"
+POL_Shortcut "EXCEL.EXE" "Microsoft Excel 2016" "" "" "Office;Spreadsheet;"
+POL_Shortcut "POWERPNT.EXE" "Microsoft Powerpoint 2016" "" "" "Office;Presentation;"
+POL_Shortcut "ONENOTE.EXE" "Microsoft OneNote 2016" "" "" "Network;InstantMessaging;" 
+# POL_Shortcut "OUTLOOK.EXE" "Microsoft Outlook 2016" "" "" "Office;Email;" # doesn't work because of unsupported browser
+
+
+POL_SetupWindow_message "$(eval_gettext 'Office is installed successfully by @sglbl')" "$TITLE"
+POL_SetupWindow_Close
+exit
