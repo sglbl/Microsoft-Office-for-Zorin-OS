@@ -10,11 +10,13 @@ choice=$(GTK_THEME=ZorinGreen-Light zenity --list \
     --title="Office 365 Launcher" \
     --text="Select an Office 365 application:" \
     --column="Application" \
-    --height=310 \
+    --height=350 \
     --width=350 \
     "Word" \
     "Excel" \
-    "PowerPoint")
+    "PowerPoint" \
+    "Access" \
+    "Publisher")
 
 case $choice in
     "Word")
@@ -25,6 +27,12 @@ case $choice in
         ;;
     "PowerPoint")
         "$LAUNCHERS_DIR/powerpoint365.sh" &
+        ;;
+    "Access")
+        "$LAUNCHERS_DIR/access365.sh" &
+        ;;
+    "Publisher")
+        "$LAUNCHERS_DIR/publisher365.sh" &
         ;;
     *)
         # If cancelled or invalid choice, exit
