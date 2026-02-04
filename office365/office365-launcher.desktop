@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Office 365
+Comment=Launch Office 365 Applications
+Icon=/home/sglbl/.local/share/applications/icons/office.svg
+Exec=/home/sglbl/bin/office365-launcher.sh
+Terminal=false
+Categories=Office;
+StartupNotify=true
