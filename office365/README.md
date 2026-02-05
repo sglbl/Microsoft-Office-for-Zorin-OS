@@ -1,7 +1,7 @@
 # Office 365 Auto Installer
 
 This directory contains resources to install Spanish version (by formateando) of Office 365  
-If you prefer English language, please refer to `office16` folder or try the english conversion script after installation.
+If you prefer English language, please refer to `office16` folder or run the english conversion script after installation.
 
 ## How to Install
 
@@ -17,3 +17,15 @@ If you prefer English language, please refer to `office16` folder or try the eng
     ./install-office365-playonlinux.sh
     ```
 5. After installation completes, you can search for Office 365 (or word, excel, powerpoint, access..) on menu. The sign-in required apps have problems due to browser compatibility issues.
+
+---
+
+For other Windows features that Linux doesn't have by default, you can visit this repository:
+https://github.com/sglbl/gnulinux-config/
+- Clipboard (using Windows + v)
+- Emoji (using Windows + .)
+- Drag and drop items from Files onto apps on dash
+- Auto connect to bluetooth device (headphones) on startup
+- Feature to be able to view recent folders
+- Capslock delay fix
+- Open .url files
