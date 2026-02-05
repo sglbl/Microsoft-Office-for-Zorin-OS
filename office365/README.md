@@ -1,7 +1,7 @@
 # Office 365 Auto Installer
 
 This directory contains resources to install Spanish version (by formateando) of Office 365  
-If you prefer English language, please refer to `office16` folder.
+If you prefer English language, please refer to `office16` folder or try the english conversion script after installation.
 
 ## How to Install
 
