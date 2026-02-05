@@ -1,5 +1,6 @@
 *.img
 *.exe
 *.zip
+.vscode
 MSO365/
 _**
