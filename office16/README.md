@@ -91,7 +91,7 @@ grep -l "office16" ~/.local/share/applications/wine-extension-*.desktop | xargs 
 
 ## License
 
-This project is licensed under the MIT License with Attribution Requirement - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License with Attribution Requirement - see the [LICENSE](../LICENSE) file for details.
 
 </details>
 
