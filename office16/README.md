@@ -40,7 +40,7 @@ This step involves importing the `office16.pol` script into PlayOnLinux to autom
     ```
 2.  Go to `Tools` > `Run a local script`.
 3.  Select the `office16.pol` file from the `office16` directory.
-4.  Follow the on-screen instructions provided by the script. (Accept mono depedendency installations and if you get .NET errors during installation, you can skip those and continue by clicking on next button.)
+4.  Follow the on-screen instructions provided by the script. (Accept mono depedendency installations and if you get an error occured while downloading .NET .exe errors during installation, you can skip those retries and continue by clicking on next button.)
 
 ### What the `office16.pol` Script Does
 
