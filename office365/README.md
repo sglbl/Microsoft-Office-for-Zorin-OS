@@ -18,6 +18,8 @@ If you prefer English language, please run the `convert-to-english.sh` script af
     ```
 5. After installation completes, you can search for Office 365 (or word, excel, powerpoint, access..) on menu. The sign-in required apps have problems due to browser compatibility issues.
 
+6. If you want to change the application language, download english pack from [here](https://support.microsoft.com/en-gb/office/install-the-english-language-pack-for-32-bit-office-94ba2e0b-638e-4a92-8857-2cb5ac1d8e17) and install it: 
+    - Open Play on Linux (POL) from menu. Then click on Configure -> office365 -> Miscellaneous Tab -> Run a exe. You'll get "Something went wrong" at the end of pack installation, but running the `convert-to-english.sh` afterwards would work.
 ---
 
 For other Windows features that Linux doesn't have by default, you can visit this repository:

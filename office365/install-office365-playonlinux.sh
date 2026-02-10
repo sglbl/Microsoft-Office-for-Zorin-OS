@@ -278,4 +278,15 @@ if [ -d "$DOWNLOADS_DIR/MSO365/Fuentes Office365" ]; then
     cp "$DOWNLOADS_DIR/MSO365/Fuentes Office365/"* "$PREFIX_DIR/drive_c/windows/Fonts/" || true
 fi
 
+# ---------------------------------------------------------
+# 19) Create PlayOnLinux Config
+# ---------------------------------------------------------
+echo "Creating playonlinux.cfg..."
+cat > "$PREFIX_DIR/playonlinux.cfg" <<EOF
+ARCH=x86
+VERSION=winecx
+OPEN_IN=xdg-open
+WINEDEBUG=
+EOF
+
 echo "Installation Complete!"
