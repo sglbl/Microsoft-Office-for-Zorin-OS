@@ -11,6 +11,7 @@ If you prefer English language, please run the `convert-to-english.sh` script af
     ```bash
     cd office365
     chmod +x install-office365-playonlinux.sh
+    chmod +x convert-to-english.sh
     ```
 4.  Run the installation script:
     ```bash
@@ -20,6 +21,12 @@ If you prefer English language, please run the `convert-to-english.sh` script af
 
 6. If you want to change the application language, download english pack from [here](https://support.microsoft.com/en-gb/office/install-the-english-language-pack-for-32-bit-office-94ba2e0b-638e-4a92-8857-2cb5ac1d8e17) and install it: 
     - Open Play on Linux (POL) from menu. Then click on Configure -> office365 -> Miscellaneous Tab -> Run a exe. You'll get "Something went wrong" at the end of pack installation, but running the `convert-to-english.sh` afterwards would work.
+
+    <details>
+    <summary>For other languages: (Advanced)</summary>
+
+    On the left bottom of the [Microsoft page](https://support.microsoft.com/en-gb/office/install-the-english-language-pack-for-32-bit-office-94ba2e0b-638e-4a92-8857-2cb5ac1d8e17), select your country/language. Download and install the language pack. Later from this [url](https://learn.microsoft.com/en-us/openspecs/office_standards/ms-oe376/6c085406-a698-4e12-9d4d-c3b0ee3dbc4a) find the 4 digit language code, replace all 1033's in the `convert-to-english.sh` script with the language of your country and run the script.
+    </details>
 ---
 
 For other Windows features that Linux doesn't have by default, you can visit this repository:
